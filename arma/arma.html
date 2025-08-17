@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Calculadora de Materiais – Refino de Armas</title>
+  <title>Calculadora de Materiais – Refino de Acessorios</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -69,17 +69,17 @@
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>Calculadora de Materiais – Refino de Armas</h1>
+      <h1>Calculadora de Materiais – Refino de Acessorios</h1>
       <p class="subtitle">Escolha a raridade e o nível do refino para calcular os materiais necessários.</p>
 
       <div class="grid" style="margin-top: 12px;">
         <div class="col-4">
-          <label class="label" for="raridade">Raridade da Arma</label>
+          <label class="label" for="raridade">Raridade da Acessorios</label>
           <select id="raridade">
-            <option value="branca">Branca</option>
+            <option value="branca">Branco</option>
             <option value="azul">Azul</option>
-            <option value="roxa">Roxa</option>
-            <option value="dourada">Dourada</option>
+            <option value="roxa">Roxo</option>
+            <option value="dourada">Dourado</option>
           </select>
         </div>
         <div class="col-4">
@@ -175,33 +175,33 @@
 
     // Custos por raridade e faixa de nível (placeholders — ajuste conforme sua tabela)
     const custos = {
-      branca: { '1-2': 6,  '3-4': 12, '5-6': 6, '7-8': 12 },
-      azul:   { '1-2': 12, '3-4': 24, '5-6': 12, '7-8': 24 },
-      roxa:   { '1-2': 24, '3-4': 36, '5-6': 24, '7-8': 48 },
-      dourada:{ '1-2': 24, '3-4': 48, '5-6': 24, '7-8': 48 }
+      branca: { '1-2': 2,  '3-4': 4, '5-6': 2, '7-8': 4 },
+      azul:   { '1-2': 4, '3-4': 8, '5-6': 4, '7-8': 8 },
+      roxa:   { '1-2': 8, '3-4': 16, '5-6': 8, '7-8': 16 },
+      dourada:{ '1-2': 8, '3-4': 16, '5-6': 8, '7-8': 16 }
     };
 
     // Mapeamento de materiais por faixa selecionada
     // (mude os nomes aqui conforme necessário)
     const materiaisPorNivel = {
       '1-2': {
-        principal: { nome: 'Oridecon Bruto 1',        mult: 8 },
+        principal: { nome: 'Bradium Bruto 1 ',        mult: 8 },
         peixe:     { nome: 'Carvão Nivel 1',       mult: 5 },
         vigor:     { nome: 'Vigor',         mult: 10 },
       },
       '3-4': {
-        principal: { nome: 'Oridecon Bruto 1 ',        mult: 8 },
+        principal: { nome: 'Bradium Bruto 1 ',        mult: 8 },
         peixe:     { nome: 'Carvão Nivel 1',       mult: 5 },
         vigor:     { nome: 'Vigor',         mult: 10 },
       },
       '5-6': {
-        principal: { nome: 'Oridecon Bruto 2', mult: 7 },
-        peixe:     { nome: 'Peixe-Luz',            mult: 9 },
+        principal: { nome: 'Bradium Bruto 2', mult: 7 },
+        peixe:     { nome: 'Pérola da noite',            mult: 9 },
         vigor:     { nome: 'Vigor',              mult: 10 },
       },
       '7-8': {
-        principal: { nome: 'Oridecon Bruto 2', mult: 7 },
-        peixe:     { nome: 'Peixe-Luz',          mult: 9 },
+        principal: { nome: 'Bradium Bruto 2', mult: 7 },
+        peixe:     { nome: 'Pérola da noite',          mult: 9 },
         vigor:     { nome: 'Vigor',              mult: 10 },
       }
     };
