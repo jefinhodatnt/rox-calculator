@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculadora de Materiais – Refino de Acessorios</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --accent: #22c55e;
+      --accent-2: #a7f3d0;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #334155;
+      --warn: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px;
+      background: radial-gradient(1200px 800px at 20% 0%, #0b1222, #0f172a);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+      border: 1px solid var(--border);
+      border-radius: 18px; padding: 20px; backdrop-filter: blur(6px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+    h1 { font-size: 26px; margin: 0 0 6px; text-align: center; }
+    p.subtitle { margin: 0 0 14px; color: var(--muted); text-align: center; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(12, 1fr); align-items: end; }
+    .col-12 { grid-column: span 12; }
+    .col-6 { grid-column: span 6; }
+    .col-4 { grid-column: span 4; }
+    .label { color: var(--muted); font-size: 13px; margin-bottom: 6px; display: block; }
+    input[type="number"], select {
+      width: 100%; padding: 12px; border-radius: 12px;
+      border: 1px solid var(--border); background: #0b1222; color: var(--text);
+      outline: none; box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+    input[readonly] { opacity: 0.85; }
+    button {
+      padding: 12px 16px; border-radius: 12px; border: 1px solid #14532d;
+      color: #052e16; background: linear-gradient(180deg, #22c55e, #16a34a);
+      font-weight: 700; cursor: pointer; letter-spacing: .2px;
+      box-shadow: 0 8px 20px rgba(34,197,94,.25);
+    }
+    button:active { transform: translateY(1px); }
+    .muted { color: var(--muted); font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { text-align: left; padding: 12px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; }
+    .footer { margin-top: 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .note { color: var(--muted); font-size: 12px; }
+    .accent { color: var(--accent-2); }
+    .warn { color: var(--warn); }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; background: #0b1020; border: 1px solid var(--border); padding: 2px 6px; border-radius: 6px; }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .col-4, .col-6, .col-12 { grid-column: span 12; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Calculadora de Materiais – Refino de Acessorios</h1>
+      <p class="subtitle">Escolha a raridade e o nível do refino para calcular os materiais necessários.</p>
+
+      <div class="grid" style="margin-top: 12px;">
+        <div class="col-4">
+          <label class="label" for="raridade">Raridade da Acessorios</label>
+          <select id="raridade">
+            <option value="branca">Branco</option>
+            <option value="azul">Azul</option>
+            <option value="roxa">Roxo</option>
+            <option value="dourada">Dourado</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <label class="label" for="nivel">Nível de Refino</label>
+          <select id="nivel">
+            <option value="1-2">1 e 2</option>
+            <option value="3-4">3 e 4</option>
+            <option value="5-6">5 e 6</option>
+            <option value="7-8">7 e 8</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <label class="label" for="tentativas">Tentativas desejadas</label>
+          <input id="tentativas" type="number" min="0" step="1" value="10" />
+        </div>
+        <div class="col-4">
+          <button id="btnCalcular" title="Calcular (atalho: Enter)">Calcular</button>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Total (todas as tentativas)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="materialPrincipalNome">—</td>
+              <td id="materialPrincipalTot">—</td>
+            </tr>
+            <tr>
+              <td id="materialPeixeNome">—</td>
+              <td id="materialPeixeTot">—</td>
+            </tr>
+            <tr>
+              <td id="materialVigorNome">—</td>
+              <td id="materialVigorTot">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid" style="margin-top: 18px;">
+        <div class="col-12">
+          <h3>Resultado:</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Material</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Total de Pedras</td>
+                <td id="totalPedras">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span class="note">Dica: altere a raridade, o nível de refino e o número de <span class="accent">tentativas</span> e pressione <span class="kbd">Enter</span> para recalcular.</span>
+        <span class="note">Feito Por: <span class="accent">vekkO</span> @jefinhodatnt</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 16px;">
+    <a href="../index.html" class="button">INICIO</a>
+  </div>
+
+  <script>
+    const nf = new Intl.NumberFormat('pt-BR');
+
+    const elRaridade = document.getElementById('raridade');
+    const elNivel = document.getElementById('nivel');
+    const elTentativas = document.getElementById('tentativas');
+    const btnCalcular = document.getElementById('btnCalcular');
+
+    const elTotalPedras = document.getElementById('totalPedras');
+
+    const elMatPrinNome = document.getElementById('materialPrincipalNome');
+    const elMatPrinTot  = document.getElementById('materialPrincipalTot');
+    const elMatPeixeNome= document.getElementById('materialPeixeNome');
+    const elMatPeixeTot = document.getElementById('materialPeixeTot');
+    const elMatVigorNome= document.getElementById('materialVigorNome');
+    const elMatVigorTot = document.getElementById('materialVigorTot');
+
+    // Custos por raridade e faixa de nível (placeholders — ajuste conforme sua tabela)
+    const custos = {
+      branca: { '1-2': 2,  '3-4': 4, '5-6': 2, '7-8': 4 },
+      azul:   { '1-2': 4, '3-4': 8, '5-6': 4, '7-8': 8 },
+      roxa:   { '1-2': 8, '3-4': 16, '5-6': 8, '7-8': 16 },
+      dourada:{ '1-2': 8, '3-4': 16, '5-6': 8, '7-8': 16 }
+    };
+
+    // Mapeamento de materiais por faixa selecionada
+    // (mude os nomes aqui conforme necessário)
+    const materiaisPorNivel = {
+      '1-2': {
+        principal: { nome: 'Bradium ',        mult: 8 },
+        peixe:     { nome: 'Carvão nv1',       mult: 5 },
+        vigor:     { nome: 'Vigor',         mult: 10 },
+      },
+      '3-4': {
+        principal: { nome: 'Bradium ',        mult: 8 },
+        peixe:     { nome: 'Carvão nv1',       mult: 5 },
+        vigor:     { nome: 'Vigor',         mult: 10 },
+      },
+      '5-6': {
+        principal: { nome: 'Bradium Bruto', mult: 7 },
+        peixe:     { nome: 'Pérola da noite',            mult: 9 },
+        vigor:     { nome: 'Vigor',              mult: 10 },
+      },
+      '7-8': {
+        principal: { nome: 'Bradium Bruto', mult: 7 },
+        peixe:     { nome: 'Pérola da noite',          mult: 9 },
+        vigor:     { nome: 'Vigor',              mult: 10 },
+      }
+    };
+
+    function clampInt(value) {
+      if (!Number.isFinite(value)) return 0;
+      return Math.max(0, Math.floor(value));
+    }
+
+    function calcular() {
+      const tentativas = clampInt(+elTentativas.value || 0);
+      const raridade = elRaridade.value;
+      const nivel = elNivel.value;
+
+      const pedrasPorTentativa = custos[raridade][nivel] || 0;
+      const totalPedras = tentativas * pedrasPorTentativa;
+
+      elTotalPedras.textContent = nf.format(totalPedras);
+
+      // Atualiza nomes e totais de acordo com a faixa selecionada
+      const cfg = materiaisPorNivel[nivel];
+      elMatPrinNome.textContent  = cfg.principal.nome;
+      elMatPeixeNome.textContent = cfg.peixe.nome;
+      elMatVigorNome.textContent = cfg.vigor.nome;
+
+      elMatPrinTot.textContent   = nf.format(totalPedras * cfg.principal.mult);
+      elMatPeixeTot.textContent  = nf.format(totalPedras * cfg.peixe.mult);
+      elMatVigorTot.textContent  = nf.format(totalPedras * cfg.vigor.mult);
+
+      elTentativas.value = tentativas; // normaliza input
+    }
+
+    btnCalcular.addEventListener('click', calcular);
+    elTentativas.addEventListener('keydown', (e) => { if (e.key === 'Enter') calcular(); });
+    elRaridade.addEventListener('change', calcular);
+    elNivel.addEventListener('change', calcular);
+
+    calcular();
+  </script>
+</body>
+</html>
