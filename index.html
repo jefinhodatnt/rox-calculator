@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculadora de Materiais – Menu</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --accent: #22c55e;
+      --accent-2: #a7f3d0;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #334155;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(1200px 800px at 20% 0%, #0b1222, #0f172a);
+      color: var(--text);
+      font-family: system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 30px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      text-align: center;
+      animation: fadeIn 0.8s ease forwards;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    p {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .btn-container {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    a.button {
+      display: block;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid #14532d;
+      background: linear-gradient(180deg, #22c55e, #16a34a);
+      color: #052e16;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 16px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    a.button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(34,197,94,0.4);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .note {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 15px;
+    }
+    .accent { color: var(--accent-2); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Calculadora de Materiais</h1>
+    <p>Escolha o tipo de refino que deseja calcular:</p>
+    <div class="btn-container">
+      <a href="arma/arma.html" class="button">⚔️ Arma</a>
+      <a href="armadura/armadura.html" class="button">🛡️ Armadura</a>
+      <a href="acessorios/acessorios.html" class="button">💍 Acessórios</a>
+    </div>
+    <div class="note">Feito por: <span class="accent">vekkO</span> @jefinhodatnt</div>
+  </div>
+</body>
+</html>
